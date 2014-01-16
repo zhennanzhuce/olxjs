@@ -580,39 +580,39 @@ if (typeof jQuery === "undefined") { throw new Error("Olx requires jQuery") }
 		/* 启用tooltip */
 		$this.tooltip("enable");
 
-		/* 必填项 */
-		if(required){
-			if(value){
-				/* 正则验证 */
-				if(pattern){
+
+		/* 正则验证 */
+		if(pattern){
+			/* 判断是否为必填项 */
+			if(required){
+				if(value){
 					regex = new RegExp(pattern);
 
-					if(!regex.test(value)){
+					if(regex.test(value)){
+						$this.tooltip("disable");
+					}else{
 						$this.tooltip("toggle");
 						$this.focus();
 						return false;
-					}else{
-						$this.tooltip("disable");
 					}
+				}else{
+					$this.attr("data-original-title", "请填写此字段。");
+					$this.tooltip("toggle");	
+					$this.focus();
+					$this.attr("data-original-title", originalTitle);		
+					return false;					
 				}
 			}else{
-				$this.attr("data-original-title", "请填写此字段。");
-				$this.tooltip("toggle");	
-				$this.focus();
-				$this.attr("data-original-title", originalTitle);		
-				return false;
-			}
-		}else{
-			/* 正则验证 */
-			if(pattern){
-				regex = new RegExp(pattern);
+				if(value){
+					regex = new RegExp(pattern);
 
-				if(!regex.test(value)){
-					$this.tooltip("toggle");
-					$this.focus();
-					return false;
-				}else{
-					$this.tooltip("disable");
+					if(regex.test(value)){
+						$this.tooltip("disable");
+					}else{
+						$this.tooltip("toggle");
+						$this.focus();
+						return false;
+					}
 				}
 			}
 		}
