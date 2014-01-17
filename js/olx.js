@@ -580,41 +580,25 @@ if (typeof jQuery === "undefined") { throw new Error("Olx requires jQuery") }
 		/* 启用tooltip */
 		$this.tooltip("enable");
 
-		/* 判断是否为必填项 */
-		if(required){
-			if("" != value){
-			/* 正则验证 */
-				if(pattern){					
-					regex = new RegExp(pattern);
+		/* 字段必填并且值为空字符串 */
+		if(required && "" == value) {				
+			$this.attr("data-original-title", "请填写此字段。");
+			$this.tooltip("toggle");	
+			$this.focus();
+			$this.attr("data-original-title", originalTitle);		
+			return false;
+		}
 
-					if(regex.test(value)){
-						$this.tooltip("disable");
-					}else{
-						$this.tooltip("toggle");
-						$this.focus();
-						return false;
-					}
-				}
+		/* 正则存在并且值不为空字符串 */
+		if (pattern && "" != value) {
+			regex = new RegExp(pattern);
+
+			if(regex.test(value)){
+				$this.tooltip("disable");
 			}else{
-				$this.attr("data-original-title", "请填写此字段。");
-				$this.tooltip("toggle");	
+				$this.tooltip("toggle");
 				$this.focus();
-				$this.attr("data-original-title", originalTitle);		
-				return false;				
-			}
-		}else{
-			if("" != value){
-				if(pattern){					
-					regex = new RegExp(pattern);
-
-					if(regex.test(value)){
-						$this.tooltip("disable");
-					}else{
-						$this.tooltip("toggle");
-						$this.focus();
-						return false;
-					}
-				}
+				return false;
 			}
 		}
 
