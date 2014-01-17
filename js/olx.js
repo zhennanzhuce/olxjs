@@ -580,12 +580,11 @@ if (typeof jQuery === "undefined") { throw new Error("Olx requires jQuery") }
 		/* 启用tooltip */
 		$this.tooltip("enable");
 
-
-		/* 正则验证 */
-		if(pattern){
-			/* 判断是否为必填项 */
-			if(required){
-				if(value){
+		/* 判断是否为必填项 */
+		if(required){
+			if("" != value){
+			/* 正则验证 */
+				if(pattern){					
 					regex = new RegExp(pattern);
 
 					if(regex.test(value)){
@@ -595,15 +594,17 @@ if (typeof jQuery === "undefined") { throw new Error("Olx requires jQuery") }
 						$this.focus();
 						return false;
 					}
-				}else{
-					$this.attr("data-original-title", "请填写此字段。");
-					$this.tooltip("toggle");	
-					$this.focus();
-					$this.attr("data-original-title", originalTitle);		
-					return false;					
 				}
 			}else{
-				if(value){
+				$this.attr("data-original-title", "请填写此字段。");
+				$this.tooltip("toggle");	
+				$this.focus();
+				$this.attr("data-original-title", originalTitle);		
+				return false;				
+			}
+		}else{
+			if("" != value){
+				if(pattern){					
 					regex = new RegExp(pattern);
 
 					if(regex.test(value)){
