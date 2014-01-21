@@ -624,3 +624,38 @@ if (typeof jQuery === "undefined") { throw new Error("Olx requires jQuery") }
 	};
 
 })(jQuery);
+
+/**
+ * BackTop
+ */
+;(function($,undefined){ "use strict";
+	// console.log("Hello, BackTop!");
+
+	function initBackTop(backTop){
+		var element=document.documentElement;
+		var body=document.body;
+		window.onscroll=set;
+		backTop.onclick=function (){
+			backTop.style.display="none";
+			window.onscroll=null;
+			this.timer=setInterval(function(){
+				element.scrollTop-=Math.ceil((element.scrollTop+body.scrollTop)*0.1);
+				body.scrollTop-=Math.ceil((element.scrollTop+body.scrollTop)*0.1);
+				if((element.scrollTop+body.scrollTop)==0) clearInterval(backTop.timer,window.onscroll=set);
+			},10);
+		};
+		function set(){backTop.style.display=(element.scrollTop+body.scrollTop>100)?'block':"none"}
+	}
+
+	function initBackTops(){
+		var backTop = $("div[data-olx-type='olx.backTop']"),
+			i,j;
+		for(i=0,j=backTop.length;i<j;i++){
+			initBackTop(backTop[i]);
+		}
+	}
+
+	$(document).ready(function(){
+		initBackTops();
+	})
+})(jQuery);
