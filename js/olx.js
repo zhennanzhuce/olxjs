@@ -15,6 +15,29 @@ if (typeof jQuery === "undefined") { throw new Error("Olx requires jQuery") }
 	// console.log("Hello, Util!");
 
 	/**
+	 * Cookie获取或设置
+	 *
+	 * @name 名称
+	 * @return 值
+	*/
+	$.fn.olxCookie = function($name){
+		var m = document.cookie.match(new RegExp("(^| )"+ $name +"=([^;]*)(;|$)"));
+		return !m ? "" : unescape(m[2]);
+	};
+
+	/**
+	 * 查询Url参数值
+	 *
+	 * @key 参数名称
+	 * @return 值
+	*/
+	$.fn.olxQueryString = function($key){
+		var uri = window.location.search;
+		var re = new RegExp(""+ val +"\=([^\&\?]*)", "ig");
+		return ((uri.match(re)) ? (uri.match(re)[0].substr($key.length + 1)) : "");
+	};
+
+	/**
 	 * Ajax
 	 *
 	 * @url
